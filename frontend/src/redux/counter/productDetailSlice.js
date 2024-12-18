@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //get all products data using redux
+const host="http://192.168.0.135:5000"
 export const getProduct=createAsyncThunk("app/getProduct", async ()=>{
-   const response=await fetch(`http://localhost:5000/api/products/all`)   
+   const response=await fetch(`${host}/api/products/all`)   
    try {
     const result=await response.json()
     

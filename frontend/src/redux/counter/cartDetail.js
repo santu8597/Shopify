@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 const headers={
   "Content-Type": "application/json",
   "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTI5OThmZWVkZWE5OGQ5NmFhMDYwZCIsImlhdCI6MTczNDAyNDcwOCwiZXhwIjoxNzM2NjE2NzA4fQ.3gkuzPhm18OGWe4AgNMkCkIG3qc_AMnLI7OQLkMLHVI"
 }
+const host="http://192.168.0.135:5000"
 export const cart_get = createAsyncThunk("app/cart_get", async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/cart/getCart`,{
+    const response = await fetch(`${host}/api/cart/getCart`,{
       method: "GET",
      headers: headers
     })
     const result = await response.json()
-    
     return result
   } catch (error) {
     console.log(error)
@@ -21,7 +20,7 @@ export const cart_get = createAsyncThunk("app/cart_get", async () => {
 
 export const deleteFromCart = createAsyncThunk("app/deleteFromCart", async (id) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/cart/${id}/delete`,{
+    const response = await fetch(`${host}/api/cart/${id}/delete`,{
       method: "PUT",
      
       headers: headers
@@ -36,7 +35,7 @@ export const deleteFromCart = createAsyncThunk("app/deleteFromCart", async (id) 
 
 
 export const addToCart = createAsyncThunk("app/addCart", async (details) => {
-  const response = await fetch(`http://localhost:5000/api/cart/add/${details.id}`,{
+  const response = await fetch(`${host}/api/cart/add/${details.id}`,{
     method: "PUT",
     body:JSON.stringify(details.detail),
    headers: headers
@@ -47,7 +46,7 @@ export const addToCart = createAsyncThunk("app/addCart", async (details) => {
 
 export const updateCart = createAsyncThunk("app/updateCart", async (details) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/cart/${details.id}/updateQuantity`,{
+    const response = await fetch(`${host}/api/cart/${details.id}/updateQuantity`,{
       method: "PUT",
       body:JSON.stringify(details.detail),
      headers: headers

@@ -4,25 +4,13 @@ import axios from 'axios'
 import { AiOutlineDelete } from "react-icons/ai";
 import { deleteFromCart, updateCart } from '../redux/counter/cartDetail';
 import { useDispatch } from 'react-redux';
-
 function CartItems(props) {
   const dispatch=useDispatch()
-  const [itemCount,setItemCount]=useState(props.count)
   const add1={quantity:props.count+1}
   const sub1={quantity:props.count-1}
-  const updateQuantity=async (itemQuantity)=>{
-    const detail={quantity:itemQuantity}
-    const headers={
-      "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTI5OThmZWVkZWE5OGQ5NmFhMDYwZCIsImlhdCI6MTczNDAyNDcwOCwiZXhwIjoxNzM2NjE2NzA4fQ.3gkuzPhm18OGWe4AgNMkCkIG3qc_AMnLI7OQLkMLHVI"
-    }
-    const id=props.itemId
-   const response=await axios.put(`http://localhost:5000/api/cart/${id}/updateQuantity`, detail,{headers})
-  }
-  
   return (
     <>
-      <div className={`flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6 border-b border-gray-200 group`}>
+    <div className={`flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6 border-b border-gray-200 group`}>
                 <div className="w-full md:max-w-[126px]">
                     <Link to={`/${props.linkToItem}`}>
                   <img src={props.image} alt="paper bag"
@@ -44,9 +32,7 @@ function CartItems(props) {
                         className="group rounded-l-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300" disabled={props.count==1} onClick={()=>{
                           if(props.count>1){
                             dispatch(updateCart({id:props.itemId,detail:sub1}))
-                          }
-                            
-                          }}>
+                          }}}>
                         <svg className={props.count==1?'stroke-gray-200 transition-all duration-500':'stroke-gray-800 transition-all duration-500'}
                           xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                           viewBox="0 0 22 22" fill="none">
@@ -81,7 +67,7 @@ function CartItems(props) {
                     </div>
                   </div>
                   <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">
-                    <p className="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">₹{(props.price)*itemCount}</p>
+                    <p className="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">₹{(props.price)*(props.count)}</p>
                   </div>
                 </div>
               </div>
