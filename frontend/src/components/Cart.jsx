@@ -13,7 +13,7 @@ function Cart() {
      
     }, [dispatch])
     const { data, error } = useSelector((state) => state.cart_all)
-    const cart_data = data.cart
+    
    
   return (
     <>
@@ -25,7 +25,7 @@ function Cart() {
               className="col-span-12 xl:col-span-8 lg:pr-8 pt-14 pb-8 lg:py-24 w-full max-xl:max-w-3xl max-xl:mx-auto">
               <div className="flex items-center justify-between pb-8 border-b border-gray-300">
                 <h2 className="font-manrope font-bold text-3xl leading-10 text-black">Shopping Cart</h2>
-                <h2 className="font-manrope font-bold text-xl leading-8 text-gray-600">{cart_data?.length} Items</h2>
+                <h2 className="font-manrope font-bold text-xl leading-8 text-gray-600">{data?.length} Items</h2>
               </div>
               <div className="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
                 <div className="col-span-12 md:col-span-7">
@@ -42,7 +42,7 @@ function Cart() {
                   </div>
                 </div>
               </div>
-              {cart_data?.map((item)=>{
+              {data?.map((item)=>{
                 return <CartItems name={item.name} image={item.image} count={item.qty} price={item.price} linkToItem={item.product} itemId={item._id} variant={item.variant} key={item._id} />
               })}
               

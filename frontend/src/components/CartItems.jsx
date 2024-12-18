@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { AiOutlineDelete } from "react-icons/ai";
+import { deleteFromCart, updateCart } from '../redux/counter/cartDetail';
+import { useDispatch } from 'react-redux';
 
 function CartItems(props) {
-  
+  const dispatch=useDispatch()
   const [itemCount,setItemCount]=useState(props.count)
-  const [deleted,setDeleted]=useState(false)
+  const add1={quantity:props.count+1}
+  const sub1={quantity:props.count-1}
   const updateQuantity=async (itemQuantity)=>{
     const detail={quantity:itemQuantity}
     const headers={
@@ -16,19 +19,10 @@ function CartItems(props) {
     const id=props.itemId
    const response=await axios.put(`http://localhost:5000/api/cart/${id}/updateQuantity`, detail,{headers})
   }
-  const deleteItem=async()=>{
-    const detail={}
-    const id=props.itemId
-    const headers={
-      "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTI5OThmZWVkZWE5OGQ5NmFhMDYwZCIsImlhdCI6MTczNDAyNDcwOCwiZXhwIjoxNzM2NjE2NzA4fQ.3gkuzPhm18OGWe4AgNMkCkIG3qc_AMnLI7OQLkMLHVI"
-    }
-   const response=await axios.put(`http://localhost:5000/api/cart/${id}/delete`,detail,{headers})
-   if(response.data.sucess){setDeleted(true)}
-  }
+  
   return (
     <>
-      <div className={`${deleted?"hidden":"flex"} flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6 border-b border-gray-200 group`}>
+      <div className={`flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6 border-b border-gray-200 group`}>
                 <div className="w-full md:max-w-[126px]">
                     <Link to={`/${props.linkToItem}`}>
                   <img src={props.image} alt="paper bag"
@@ -40,18 +34,20 @@ function CartItems(props) {
                       <h6 className="font-semibold text-base leading-7 text-black">{props.name}</h6>
                       <h6 className="font-normal text-base leading-7 text-gray-500 -mt-4">{`[Color:${props.variant.color},Size:${props.variant.size}]`}</h6>
                       <h6 className="font-medium text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-indigo-600">{props.price}</h6>
-                      <button onClick={()=>{deleteItem()}}>{<AiOutlineDelete/>}</button>
+                      <button onClick={()=>{
+                        dispatch(deleteFromCart(props.itemId))}}>{<AiOutlineDelete/>}</button>
                     </div>
                   </div>
                   <div className="flex items-center max-[500px]:justify-center h-full max-md:mt-3">
                     <div className="flex items-center h-full">
                       <button
-                        className="group rounded-l-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300" disabled={itemCount==1} onClick={()=>{
-                          if(itemCount>1){
-                            setItemCount(itemCount-1)
-                            updateQuantity(itemCount-1)
-                          }}}>
-                        <svg className={itemCount==1?'stroke-gray-200 transition-all duration-500':'stroke-gray-800 transition-all duration-500'}
+                        className="group rounded-l-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300" disabled={props.count==1} onClick={()=>{
+                          if(props.count>1){
+                            dispatch(updateCart({id:props.itemId,detail:sub1}))
+                          }
+                            
+                          }}>
+                        <svg className={props.count==1?'stroke-gray-200 transition-all duration-500':'stroke-gray-800 transition-all duration-500'}
                           xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                           viewBox="0 0 22 22" fill="none">
                           <path d="M16.5 11H5.5" stroke="" strokeWidth="1.6"
@@ -63,11 +59,13 @@ function CartItems(props) {
                         </svg>
                         </button>
                       <p
-                        className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-lg w-full max-w-[73px] min-w-[60px] placeholder:text-gray-900 py-[15px]  text-center bg-transparent">{itemCount} </p>
+                        className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-lg w-full max-w-[73px] min-w-[60px] placeholder:text-gray-900 py-[15px]  text-center bg-transparent">{props.count} </p>
                       <button
                         className="group rounded-r-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300" onClick={()=>{
-                          setItemCount((itemCount)=>itemCount+1)
-                            updateQuantity(itemCount+1)
+                          
+                            
+                            dispatch(updateCart({id:props.itemId,detail:add1}))
+
                         }}>
                         <svg className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
                           xmlns="http://www.w3.org/2000/svg" width="22" height="22"

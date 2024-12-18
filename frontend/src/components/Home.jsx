@@ -9,7 +9,7 @@ function Home() {
     dispatch(getProduct())
   }, [dispatch])
   const { data, loading, error } = useSelector((state) => state.product_all)
-  const products = data.products
+
 
   return (
     <>
@@ -19,7 +19,7 @@ function Home() {
 
 
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products?.map((product, id) => (
+            {data?.map((product, id) => (
               <div key={id} className="group relative">
                 <img
                   alt={product?.imageAlt}

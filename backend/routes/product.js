@@ -4,25 +4,33 @@ const fetch=require('../middlewares/Auth')
 const Product =require('../models/Product')
 const User = require('../models/User')
 
+
+
 productRoute.get('/all',async (req,res)=>{
     try {
         const products=await Product.find({})
-        res.json({sucess:true,products})  
+        res.json(products)  
     } catch (error) {
         res.json({sucess:false,error:"Some Internal error occured"})
     }
     
 })
+
+
+
 productRoute.get('/:id',async (req,res)=>{
     try {
         const product=await Product.findById(req.params.id)
-    if(product){res.json({sucess:true,product})}
+    if(product){res.json(product)}
     else{res.json({sucess:false,error:"Product not found"})}
     } catch (error) {
         res.json({sucess:false,error:"Some Internal error occured"})
     }
     
 })
+
+
+
 productRoute.put('/:id/review',fetch,async (req,res)=>{
     try {
         const user_details=await User.findById(req.user)
@@ -61,16 +69,15 @@ productRoute.put('/:id/review',fetch,async (req,res)=>{
    
     
 })
+
+ 
+
 productRoute.get('/:id/show_all_review',async (req,res)=>{
-    
-    
-    
-        try {
+    try {
             const product=await Product.findById(req.params.id)
-        
             if(product){
                 const data=product.reviews
-                 res.json({sucess:true,data:data})}
+                res.json({sucess:true,data:data})}
              else{res.json({sucess:false,error:"Product not found"})}
         } catch (error) {
             res.json({sucess:false,error:"Some Internal error occured"})

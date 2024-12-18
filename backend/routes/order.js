@@ -4,6 +4,7 @@ const fetch=require('../middlewares/Auth')
 const Order = require('../models/Order')
 
 //order route
+
 orderRoute.post('/',fetch,async (req,res)=>{
     try {
         const {orderItems,shippingAddress,paymentMethod,paymentResult,taxPrice,shippingPrice,totalPrice,isPaid,isDelivered,deliveredAt}=req.body
@@ -25,7 +26,7 @@ orderRoute.post('/',fetch,async (req,res)=>{
             deliveredAt:deliveredAt
             })
         const createOrder=await order.save()
-        res.json({createOrder})
+        res.json(createOrder)
     }
     } catch (error) {
         res.json({sucess:false,error:"Some Internal error occured"})

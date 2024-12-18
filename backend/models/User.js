@@ -23,7 +23,7 @@ const userSchema=mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cart:[cartItems]
+    cart:{ type: [cartItems], default: [] },
   },
   { timestamps: true }
     

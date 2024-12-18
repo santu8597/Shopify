@@ -14,7 +14,7 @@ export const getProduct=createAsyncThunk("app/getProduct", async ()=>{
 const productDetail= createSlice({
     name:"productDetail",
     initialState:{
-       data:{sucess:true,products:[]},
+       data:[],
         loading:false,
         error:null,
     },
@@ -25,8 +25,8 @@ const productDetail= createSlice({
           })
           builder.addCase(getProduct.fulfilled,(state,action)=>{
             state.loading=false;
-            state.data.sucess=action.payload.sucess;
-            state.data.products=action.payload.products;
+            state.data=action.payload
+           
           })
           builder.addCase(getProduct.rejected,(state,action)=>{
             state.loading=false;

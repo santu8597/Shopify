@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom'
 import Review from './Review'
 import ReviewCard from './ReviewCard'
 import axios from 'axios'
-import { cart_add } from '../redux/counter/addToCart'
 import { IoCheckmark } from "react-icons/io5";
+import { addToCart } from '../redux/counter/cartDetail'
 function ProductDetail() {
   const dispatch = useDispatch()
   const { id } = useParams();
@@ -20,24 +20,7 @@ function ProductDetail() {
       size:size
     }
   }
-  const headers={
-      "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTI5OThmZWVkZWE5OGQ5NmFhMDYwZCIsImlhdCI6MTczNDAyNDcwOCwiZXhwIjoxNzM2NjE2NzA4fQ.3gkuzPhm18OGWe4AgNMkCkIG3qc_AMnLI7OQLkMLHVI"
-  }
-  const add_cart=async ()=>{
-    try {
-      axios.put(`http://localhost:5000/api/cart/add/${id}`, detail,{headers})
-      .then((response) => {
-          
-          return response.data.sucess;
-      })
-      .catch((e) => console.log('something went wrong :(', e))
-    } catch (error) {
-      console.log(error)
-    }
-   
-    
-  }
+  
   
   useEffect(() => {
     dispatch(product_get(id))
@@ -45,7 +28,6 @@ function ProductDetail() {
   }, [dispatch])
   const { data, error } = useSelector((state) => state.product_id)
 
-  const product_data = data?.product
   
   return (
     <>
@@ -53,10 +35,10 @@ function ProductDetail() {
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/3 w-full lg:h-[30rem] h-96 object-fill object-center rounded" src={product_data?.image} />
+            <img alt="ecommerce" className="lg:w-1/3 w-full lg:h-[30rem] h-96 object-fill object-center rounded" src={data?.image} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product_data?.name}</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{data?.name}</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -74,7 +56,7 @@ function ProductDetail() {
                   <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <span className="text-gray-600 ml-3">{product_data?.reviews.length} Reviews</span>
+                  <span className="text-gray-600 ml-3"> Reviews</span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
                   <a className="text-gray-500">
@@ -94,7 +76,7 @@ function ProductDetail() {
                   </a>
                 </span>
               </div>
-              <p className="leading-relaxed">{product_data?.description}</p>
+              <p className="leading-relaxed">{data?.description}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 
                 <div className="flex flex-wrap gap-3">
@@ -128,11 +110,11 @@ function ProductDetail() {
                 
               </div>
               <div className="flex">
-                <span className="title-font font-medium text-2xl text-gray-900">${product_data?.price}.00</span>
+                <span className="title-font font-medium text-2xl text-gray-900">${data?.price}.00</span>
                 <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" onClick={() => {
                  
                   
-                  add_cart()
+                  dispatch(addToCart({detail:detail,id:id}))
                   setText("Item Added")
 
 
