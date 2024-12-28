@@ -19,6 +19,7 @@ userRoute.post('/login',async (req,res)=>{
     if (!pass2) {return res.status(400).json({ sucess:sucess,type:type,error: "Your password is incorrect" })}
     sucess=true
     res.json({
+        sucess:true,
         _id:user.id,
         name:user.name,
         email:user.email,
@@ -56,7 +57,7 @@ userRoute.post('/signup',async (req,res)=>{
 }) 
  
 //user profile route
-userRoute.post('/profile',fetch,async (req,res)=>{
+userRoute.get('/profile',fetch,async (req,res)=>{
     try {
         const userId = req.user;
         const user = await User.findById(userId).select("-password");

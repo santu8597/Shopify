@@ -3,25 +3,21 @@ import CartItems from './CartItems'
 import { useDispatch, useSelector } from 'react-redux'
 import { cart_get } from '../redux/counter/cartDetail'
 import { calculateTotalPrice } from '../assets/findTotalPrice'
+import { useNavigate } from 'react-router-dom'
 
 function Cart() {
   const dispatch = useDispatch()
+  const navigate=useNavigate()
   useEffect(() => {
-      dispatch(cart_get())
-      
-     
-     
-     
-    }, [dispatch])
-    const { data, error } = useSelector((state) => state.cart_all)
-    
+     localStorage.getItem('auth-token') ? dispatch(cart_get()) : navigate('/auth')
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [dispatch])
   
-   
+  const { data, error } = useSelector((state) => state.cart_all)
+    
   return (
     <>
-      <section
-        className=" relative z-10 after:contents-[''] after:absolute after:z-0 after:h-full xl:after:w-1/3 after:top-0 after:right-0 after:bg-gray-50">
-        <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto relative z-10">
+      <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto relative z-10 mt-8 md:mt-2">
           <div className="grid grid-cols-12">
             <div
               className="col-span-12 xl:col-span-8 lg:pr-8 pt-14 pb-8 lg:py-24 w-full max-xl:max-w-3xl max-xl:mx-auto">
@@ -53,22 +49,13 @@ function Cart() {
               })}
               </>
               }
-              
-              
-              
-             
-
-              
             </div>
             <div
               className=" col-span-12 xl:col-span-4 bg-gray-50 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8 py-24">
               <h2 className="font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300">
                 Order Summary</h2>
               <div className="mt-8">
-                
-                
-                  
-                  <label className="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
+                <label className="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
                   </label>
                   <div className="flex pb-4 w-full">
                     <div className="relative w-full ">
@@ -78,9 +65,7 @@ function Cart() {
                       <input type="text"
                         className="block w-full h-11 pr-11 pl-5 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-gray-400 "
                         placeholder="xxxx xxxx xxxx" />
-                      
-                      
-                    </div>
+                      </div>
                   </div>
                   <div className="flex items-center border-b border-gray-200">
                     <button
@@ -92,7 +77,7 @@ function Cart() {
                     <p className="font-semibold text-xl leading-8 text-indigo-600">₹{calculateTotalPrice(data)}</p>
                     
                   </div>
-                     {/* {error && <p className='text-red-700 mb-1'>Please select atleast one item</p>}  */}
+                   
                   <button
                     className={`w-full text-center disabled:bg-indigo-300 bg-indigo-700 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-indigo-700 disabled:hover:bg-indigo-300`} disabled={data?.length===0}>Checkout</button>
                 
@@ -100,7 +85,7 @@ function Cart() {
             </div>
           </div>
         </div>
-      </section>
+      
     </>
   )
 }

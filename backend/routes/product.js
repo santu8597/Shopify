@@ -4,8 +4,6 @@ const fetch=require('../middlewares/Auth')
 const Product =require('../models/Product')
 const User = require('../models/User')
 
-
-
 productRoute.get('/all',async (req,res)=>{
     try {
         const products=await Product.find({})
@@ -15,9 +13,6 @@ productRoute.get('/all',async (req,res)=>{
     }
     
 })
-
-
-
 productRoute.get('/:id',async (req,res)=>{
     try {
         const product=await Product.findById(req.params.id)
@@ -28,15 +23,11 @@ productRoute.get('/:id',async (req,res)=>{
     }
     
 })
-
-
-
 productRoute.put('/:id/review',fetch,async (req,res)=>{
     try {
         const user_details=await User.findById(req.user)
-    const user_name=user_details.name
-    const {rating,comment}=req.body
-    
+        const user_name=user_details.name
+        const {rating,comment}=req.body
         const review={
             name:user_name,
             rating,
@@ -44,7 +35,6 @@ productRoute.put('/:id/review',fetch,async (req,res)=>{
             user:req.user
         }
         const product=await Product.findById(req.params.id)
-        
         if(product){
             let sum=0
             product.rating=0

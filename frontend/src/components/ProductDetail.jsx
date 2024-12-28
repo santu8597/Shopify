@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { product_get } from '../redux/counter/productById'
 import { useParams } from 'react-router-dom'
-import Review from './Review'
-import ReviewCard from './ReviewCard'
-import axios from 'axios'
+
+
 import { IoCheckmark } from "react-icons/io5";
 import { addToCart } from '../redux/counter/cartDetail'
 function ProductDetail() {
@@ -24,6 +23,7 @@ function ProductDetail() {
   
   useEffect(() => {
     dispatch(product_get(id))
+    window.scrollTo({ top: 0 });
 
   }, [dispatch])
   const { data, error } = useSelector((state) => state.product_id)
@@ -129,8 +129,8 @@ function ProductDetail() {
           </div>
         </div>
       </section>
-      <Review />
-      <ReviewCard />
+      {/* <Review />
+      <ReviewCard /> */}
     </>
   )
 }

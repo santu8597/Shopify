@@ -7,6 +7,7 @@ function Home() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProduct())
+    window.scrollTo({ top: 0 });
   }, [dispatch])
   const { data, loading, error } = useSelector((state) => state.product_all)
 

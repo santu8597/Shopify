@@ -30,14 +30,12 @@ cartRoute.put('/add/:id',fetch,async (req,res)=>{
                 return res.json(updated_user.cart)})
 
 // getcart
-
 cartRoute.get('/getCart',fetch,async (req,res)=>{
     const user=await User.findById(req.user)
     if(!user){return res.json({sucess:false,error:"Some Internal error occured"})}
     if(user){res.json(user.cart)}})
 
 // updateQuantity
-
 cartRoute.put('/:id/updateQuantity',fetch,async (req,res)=>{
         const user=await User.findById(req.user)
         if(!user){return res.json({sucess:false,error:"Some Internal error occured"})}
@@ -52,7 +50,6 @@ cartRoute.put('/:id/updateQuantity',fetch,async (req,res)=>{
             }}})
 
 // delete
-
 cartRoute.put('/:id/delete',fetch,async (req,res)=>{
     const removeId=req.params.id
     try {

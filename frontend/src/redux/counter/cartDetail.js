@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const headers={
-  "Content-Type": "application/json",
-  "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NTI5OThmZWVkZWE5OGQ5NmFhMDYwZCIsImlhdCI6MTczNDAyNDcwOCwiZXhwIjoxNzM2NjE2NzA4fQ.3gkuzPhm18OGWe4AgNMkCkIG3qc_AMnLI7OQLkMLHVI"
-}
+
 const host="http://192.168.0.135:5000"
 export const cart_get = createAsyncThunk("app/cart_get", async () => {
+  const headers={
+    "Content-Type": "application/json",
+   "auth-token": localStorage.getItem('auth-token')
+  }
   try {
     const response = await fetch(`${host}/api/cart/getCart`,{
       method: "GET",
@@ -19,6 +20,10 @@ export const cart_get = createAsyncThunk("app/cart_get", async () => {
 
 
 export const deleteFromCart = createAsyncThunk("app/deleteFromCart", async (id) => {
+  const headers={
+    "Content-Type": "application/json",
+   "auth-token": localStorage.getItem('auth-token')
+  }
   try {
     const response = await fetch(`${host}/api/cart/${id}/delete`,{
       method: "PUT",
@@ -35,6 +40,10 @@ export const deleteFromCart = createAsyncThunk("app/deleteFromCart", async (id) 
 
 
 export const addToCart = createAsyncThunk("app/addCart", async (details) => {
+  const headers={
+    "Content-Type": "application/json",
+   "auth-token": localStorage.getItem('auth-token')
+  }
   const response = await fetch(`${host}/api/cart/add/${details.id}`,{
     method: "PUT",
     body:JSON.stringify(details.detail),
@@ -45,6 +54,11 @@ export const addToCart = createAsyncThunk("app/addCart", async (details) => {
 })
 
 export const updateCart = createAsyncThunk("app/updateCart", async (details) => {
+  const headers={
+    "Content-Type": "application/json",
+   "auth-token": localStorage.getItem('auth-token')
+  }
+
   try {
     const response = await fetch(`${host}/api/cart/${details.id}/updateQuantity`,{
       method: "PUT",
@@ -53,7 +67,7 @@ export const updateCart = createAsyncThunk("app/updateCart", async (details) => 
     })
     
     const result = await response.json()
-    console.log(result)
+    
    return result
   } catch (error) {
     console.log(error)
@@ -115,7 +129,7 @@ const cartDetail = createSlice({
     }),
     builder.addCase(updateCart.fulfilled, (state, action) => {
       state.status = "sucess";
-      console.log(action.payload)
+      
       state.data = state.data.map((ele) =>
         String(ele._id) === String(action.payload._id) ? action.payload : ele
       );
