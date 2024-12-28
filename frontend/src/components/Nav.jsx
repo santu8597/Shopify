@@ -4,19 +4,23 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { cart_get } from "../redux/counter/cartDetail";
-// import { user_get } from "../redux/counter/userDetail";
+import { Login,Logout } from "../redux/counter/signedIn";
 export default function Navbar() {
   const navigate=useNavigate();
   const dispatch=useDispatch()
   React.useEffect(()=>{
     if(localStorage.getItem('auth-token')){
       dispatch(cart_get());
-      // dispatch(user_get())
+      
+     
+      
       setIsSignedIn(true)}
 
     else{setIsSignedIn(false)}
   },[])
+  
   const { data, error } = useSelector((state) => state.cart_all)
+  const {signedIn}=useSelector((state)=>state.isLoggedIn)
   const [isOpen, setIsOpen] = React.useState(false)
   const [cartCount, setCartCount] = React.useState(3) // Example cart count
   const [isSignedIn, setIsSignedIn] = React.useState()
@@ -76,13 +80,13 @@ export default function Navbar() {
               <button onClick={()=>{
                 if(localStorage.getItem('auth-token')){
                   localStorage.removeItem('auth-token');
-                  setIsSignedIn(false)
+                  dispatch(Logout())
                 }
                 else{
                   navigate('/auth')
                 }
               }}>
-                {isSignedIn ? "Sign Out" : "Sign In"}
+                {signedIn ? "Sign Out" : "Sign In"}
               </button>
             </div>
 

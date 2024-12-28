@@ -3,6 +3,7 @@ import { ArrowRight, Github, Loader2, Mail } from 'lucide-react'
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { cart_get } from '../redux/counter/cartDetail'
+import { Login,Logout } from "../redux/counter/signedIn";
 export default function AuthForm() {
   const [isSignIn, setIsSignIn] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +35,7 @@ const dispatch = useDispatch()
         if (data.sucess) {
             localStorage.setItem('auth-token', data.token);
             dispatch(cart_get())
-            
+            dispatch(Login())
             navigate('/');
         }
         else {
