@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const host="http://192.168.0.135:5000"
+const host="http://localhost:5000"
 export const cart_get = createAsyncThunk("app/cart_get", async () => {
   const headers={
     "Content-Type": "application/json",

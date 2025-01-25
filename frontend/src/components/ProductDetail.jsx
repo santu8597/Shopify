@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { product_get } from '../redux/counter/productById'
-import { useParams } from 'react-router-dom'
-
-
+import { useNavigate, useParams } from 'react-router-dom'
 import { IoCheckmark } from "react-icons/io5";
 import { addToCart } from '../redux/counter/cartDetail'
 function ProductDetail() {
@@ -12,6 +10,7 @@ function ProductDetail() {
   const [color,setColor]=useState("grey")
   const [size,setSize]=useState("small")
   const [text,setText]=useState("Add to Cart")
+  const navigate=useNavigate()
   const detail={
     quantity:1,
     variant:{
@@ -20,7 +19,7 @@ function ProductDetail() {
     }
   }
   
-  
+   const {signedIn}=useSelector((state)=>state.isLoggedIn)
   useEffect(() => {
     dispatch(product_get(id))
     window.scrollTo({ top: 0 });
@@ -113,9 +112,10 @@ function ProductDetail() {
                 <span className="title-font font-medium text-2xl text-gray-900">${data?.price}.00</span>
                 <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" onClick={() => {
                  
-                  
+                  if(signedIn){
                   dispatch(addToCart({detail:detail,id:id}))
-                  setText("Item Added")
+                  setText("Item Added")}
+                  else{navigate('/auth')}
 
 
                 }} disabled={text!=="Item Added"?false:true}>{text}<IoCheckmark className={`mt-1 ml-2 ${text!=="Item Added"?"hidden":""} scale-110`}/></button>
@@ -129,8 +129,7 @@ function ProductDetail() {
           </div>
         </div>
       </section>
-      {/* <Review />
-      <ReviewCard /> */}
+     
     </>
   )
 }

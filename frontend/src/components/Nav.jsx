@@ -9,28 +9,18 @@ export default function Navbar() {
   const navigate=useNavigate();
   const dispatch=useDispatch()
   React.useEffect(()=>{
-    if(localStorage.getItem('auth-token')){
+    if(signedIn){
       dispatch(cart_get());
-      
-     
-      
-      setIsSignedIn(true)}
-
-    else{setIsSignedIn(false)}
+      }
   },[])
-  
   const { data, error } = useSelector((state) => state.cart_all)
   const {signedIn}=useSelector((state)=>state.isLoggedIn)
   const [isOpen, setIsOpen] = React.useState(false)
   const [cartCount, setCartCount] = React.useState(3) // Example cart count
-  const [isSignedIn, setIsSignedIn] = React.useState()
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
-  const toggleSignIn = () => {
-    setIsSignedIn(!isSignedIn)
-  }
-
+ 
   // Close mobile menu when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,11 +56,11 @@ export default function Navbar() {
                 
               </Link>
               <button onClick={()=>{
-                localStorage.getItem('auth-token')?navigate('/cart'):navigate('/auth')
+                signedIn?navigate('/cart'):navigate('/auth')
               }} className="relative">
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 
-                {localStorage.getItem('auth-token') && data?.length > 0 && (
+                {signedIn && data?.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-primary text-white bg-violet-600 rounded-full w-4 h-4 text-xs flex items-center justify-center">
                     {data?.length}
                   </span>
@@ -78,7 +68,7 @@ export default function Navbar() {
               </button>
              
               <button onClick={()=>{
-                if(localStorage.getItem('auth-token')){
+                if(signedIn){
                   localStorage.removeItem('auth-token');
                   dispatch(Logout())
                 }
@@ -161,9 +151,9 @@ export default function Navbar() {
                   >
                     <ShoppingCart className="w-5 h-5 mr-4" />
                     Cart
-                    {cartCount > 0 && (
+                    {signedIn && data?.length > 0 && (
                       <span className="absolute top-[7.9rem] left-8 bg-primary text-white bg-violet-900 rounded-full w-3 h-3 text-xs flex items-center justify-center">
-                        {cartCount}
+                        {data?.length}
                       </span>
                     )}
                   </Link>
@@ -177,7 +167,7 @@ export default function Navbar() {
                   className="w-full justify-center"
                   
                 >
-                  {localStorage.getItem('auth-token')?"Sign Out" : "Sign In"}
+                  {signedIn?"Sign Out" : "Sign In"}
                   
                 </Link>
               </div>

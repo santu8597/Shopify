@@ -16,7 +16,7 @@ function App() {
           <Route exact path='/:id' element={<ProductDetail />}></Route>
           <Route exact path='/cart' element={<Cart />}></Route>
           <Route exact path='/auth' element={<AuthForm />}></Route>
-        </Routes>
+          </Routes>
         <Footer />
       </Router>
     </>

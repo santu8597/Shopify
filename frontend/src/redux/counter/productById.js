@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const host="http://192.168.0.135:5000"
+const host="http://localhost:5000"
 export const product_get = createAsyncThunk("app/product_get", async (id) => {
   try {
     const response = await fetch(`${host}/api/products/${id}`)

@@ -14,9 +14,10 @@ function Cart() {
   }, [dispatch])
   
   const { data, error } = useSelector((state) => state.cart_all)
-    
+    const {signedIn}=useSelector((state)=>state.isLoggedIn)
   return (
     <>
+    {!signedIn && navigate('/')}
       <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto relative z-10 mt-8 md:mt-2">
           <div className="grid grid-cols-12">
             <div

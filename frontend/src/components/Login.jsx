@@ -8,21 +8,20 @@ export default function AuthForm() {
   const [isSignIn, setIsSignIn] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState({ emailError: "", passwordError: "" })
-const [signUpInfo, setSignUpInfo] = useState({ name:"",email: "", password: "" });
-const navigate=useNavigate()
-const signUpChange = (e) => {
+  const [signUpInfo, setSignUpInfo] = useState({ name:"",email: "", password: "" });
+  const navigate=useNavigate()
+  const signUpChange = (e) => {
     setSignUpInfo({ ...signUpInfo, [e.target.name]: e.target.value });
     setError({ emailError: "", passwordError: "" });
 
 }
 const dispatch = useDispatch()
 
-// useEffect(()=>{
-//     window.scrollTo({ top: 0 });
-// },[])
+useEffect(()=>{
+    window.scrollTo({ top: 0 });
+},[])
   const handleLogin = async (e) => {
-    
-   e.preventDefault()
+    e.preventDefault()
    setIsLoading(true)
     const host = "http://localhost:5000";
         const response = await fetch(`${host}/api/users/login`, {
